@@ -1,5 +1,3 @@
--- Run this ONCE before starting any service
--- mysql -u root -p < create_databases.sql
 
 CREATE DATABASE IF NOT EXISTS revhire_auth_db;
 CREATE DATABASE IF NOT EXISTS revhire_job_db;
