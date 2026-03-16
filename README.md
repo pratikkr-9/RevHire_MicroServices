@@ -105,12 +105,3 @@ cd auth-service && mvn test
 cd job-service && mvn test
 cd application-service && mvn test
 ```
-
-## Troubleshooting
-
-| Symptom | Fix |
-|---|---|
-| "Email already registered" on fresh register | Run `DELETE FROM revhire_auth_db.users WHERE email='your@email.com';` in MySQL — a previous failed attempt saved the user |
-| 503 on first request after startup | Wait 30s for Eureka to sync, then retry |
-| Services not showing in Eureka | Check service `application.properties` has correct `eureka.client.service-url.defaultZone=http://localhost:8761/eureka/` |
-| Port already in use | Kill the process: `netstat -ano | findstr :8081` then `taskkill /PID <pid> /F` (Windows) |
