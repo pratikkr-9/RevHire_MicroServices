@@ -7,9 +7,7 @@ import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "applications", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"job_id", "job_seeker_user_id"})
-})
+@Table(name = "applications")
 @Data @NoArgsConstructor @AllArgsConstructor
 public class Application {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -36,8 +36,8 @@ public class ApplicationService {
         if (jobData == null) throw new AppException("Job not found", 404);
         if (!"ACTIVE".equals(jobData.get("status")))
             throw new AppException("This job is no longer accepting applications");
-        if (applicationRepository.existsByJobIdAndJobSeekerUserId(request.getJobId(), userId))
-            throw new AppException("Already applied to this job");
+        if (applicationRepository.existsByJobIdAndJobSeekerUserIdAndStatusNot(request.getJobId(), userId, Application.ApplicationStatus.WITHDRAWN))
+        throw new AppException("Already applied to this job");
 
         Application app = new Application();
         app.setJobId(request.getJobId());

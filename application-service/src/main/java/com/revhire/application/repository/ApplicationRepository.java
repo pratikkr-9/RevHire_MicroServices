@@ -10,6 +10,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     List<Application> findByJobSeekerUserId(Long jobSeekerUserId);
     List<Application> findByJobId(Long jobId);
     boolean existsByJobIdAndJobSeekerUserId(Long jobId, Long jobSeekerUserId);
+    boolean existsByJobIdAndJobSeekerUserIdAndStatusNot(Long jobId, Long jobSeekerUserId, Application.ApplicationStatus status);
 
     @Query("SELECT COUNT(a) FROM Application a WHERE a.employerUserId = :empId")
     long countByEmployerUserId(@Param("empId") Long empId);
