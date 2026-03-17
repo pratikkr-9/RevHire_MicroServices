@@ -32,14 +32,25 @@ public class ProfileService {
 
     @Value("${file.upload-dir}") private String uploadDir;
 
-    @Transactional
-    public void createProfile(Long userId) {
-        if (profileRepository.findByUserId(userId).isPresent()) return;
-        JobSeekerProfile p = new JobSeekerProfile();
-        p.setUserId(userId);
-        profileRepository.save(p);
-        logger.info("Profile created for userId: {}", userId);
+@Transactional
+public void createProfile(Long userId) {
+    if (profileRepository.findByUserId(userId).isPresent()) return;
+    JobSeekerProfile p = new JobSeekerProfile();
+    p.setUserId(userId);
+    try {
+        Map<String, Object> userData = authServiceClient.getUserById(userId);
+        if (userData != null && !userData.isEmpty()) {
+            p.setName((String) userData.get("name"));
+            p.setEmail((String) userData.get("email"));
+            p.setPhone((String) userData.get("phone"));
+            p.setLocation((String) userData.get("location"));
+        }
+    } catch (Exception e) {
+        logger.warn("Could not fetch user data during profile creation for userId={}: {}", userId, e.getMessage());
     }
+    profileRepository.save(p);
+    logger.info("Profile created for userId: {}", userId);
+}
 
     @Transactional
     public ProfileDto.ProfileResponse getProfile(Long userId) {
